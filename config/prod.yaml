@@ -1,0 +1,8 @@
+connection:
+  protocol: http
+  host: 34.71.52.107
+  port: 80
+environment:
+  subscription: Prod
+  full_name: prod
+  short_name: prod

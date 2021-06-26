@@ -25,12 +25,14 @@ pipeline {
         }
         stage("Load Config") {
              steps {
+                 script{
             configText = sh(
                 label: "Read config from disk",
                 script: "cat ${env.WORKSPACE}/config/${params['DEPLOY_ENV']}.yaml",
                 returnStdout: true,
             )
             config = readYaml(text: configText)
+             }
              }
         }
         stage('Build') {

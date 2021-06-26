@@ -1,18 +1,40 @@
 pipeline {
     agent any
     stages{
+        stage('Setup parameters') {
+            steps {
+                script { 
+                    properties([
+    parameters([
+        choice(
+            choices: ['uat', 'sandbox', 'e2e', 'prod', 'stage', 'demo', 'all'],
+            description: 'Environment that the script should push to.',
+            name: 'DEPLOY_ENV'
+        ),
+    ])
+])
+                    def pythonModule = "python_test"
+                }
+            }
+        }
+    
         stage('Deploy') {
             steps {
-                withEnv(['PYTHON_SCRIPT=python_test']) 
+                withEnv(["PYTHONPATH=./${pythonModule}"]) 
      {
        script {
            currentBuild.description = params.DEPLOY_ENV
            echo params.DEPLOY_ENV 
-   if ((params.DEPLOY_ENV == "UAT")) {
-               build job: 'sample', parameters: [string(name: 'DEPLOY_ENV', value: 'uat')], propagate: false, wait: false 
-   }else {
-       return
-   }
+            if (params.DEPLOY_ENV == "all") {
+            ['sandbox', 'e2e', 'uat', 'stage', 'demo', 'prod'].each { String app ->
+                build(
+                    job: 'sample', parameters: [string(name: 'DEPLOY_ENV', value: 'uat')],
+                    propagate: false,
+                    wait: false
+                )
+            }
+            return
+        }
        }
      }
             

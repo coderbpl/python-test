@@ -64,7 +64,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "py ${pythonModule}"
+                sh "py -m ${pythonModule} -c config/${params['DEPLOY_ENV']}.yaml -l INFO -d dashboards test"
             }
         }
     }

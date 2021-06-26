@@ -5,9 +5,14 @@ pipeline {
             steps {
                 withEnv(['PYTHON_SCRIPT=python_test']) 
      {
-       
-   
-               build job: 'sample', parameters: [string(name: 'DEPLOY_ENV', value: params.DEPLOY_ENV)], propagate: false, wait: false 
+       script {
+           currentBuild.description = params.DEPLOY_ENV
+   if ((params.DEPLOY_ENV == "UAT")) {
+               build job: 'sample', parameters: [string(name: 'DEPLOY_ENV', value: 'uat')], propagate: false, wait: false 
+   }else {
+       return
+   }
+       }
      }
             
             }

@@ -18,6 +18,16 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'a6f4081c-63d6-441b-b8de-c99fd34f8502', url: 'https://github.com/coderbpl/python-test.git']]])
             }
         }
+        stage("Load Config") {
+             steps {
+            configText = sh(
+                label: "Read config from disk",
+                script: "cat ${env.WORKSPACE}/config/${params['DEPLOY_ENV']}.yaml",
+                returnStdout: true,
+            )
+            config = readYaml(text: configText)
+             }
+        }
         stage('Build') {
             steps {
                 sh 'py params.PYTHON_SCRIPT'

@@ -1,5 +1,8 @@
 pipeline {
     agent any
+     environment {
+     pythonModule =  "python_test"
+   }
     stages{
         stage('Setup parameters') {
             steps {
@@ -13,7 +16,7 @@ pipeline {
         ),
     ])
 ])
-                    def pythonModule = "python_test"
+                    
                 }
             }
         }

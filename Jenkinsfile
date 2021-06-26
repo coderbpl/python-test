@@ -8,7 +8,7 @@ pipeline {
        
    
                build job: 'grafana/master', parameters: [string(name: 'DEPLOY_ENV', value: params.DEPLOY_ENV)], propagate: false, wait: false 
-            
+     }
             
             }
         }

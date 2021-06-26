@@ -64,7 +64,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh "py ${params['DEPLOY_ENV']}"
+                sh "py ${pythonModule}"
             }
         }
     }

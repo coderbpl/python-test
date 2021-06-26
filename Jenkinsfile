@@ -57,7 +57,7 @@ pipeline {
                 script: "cat ${env.WORKSPACE}/config/${params['DEPLOY_ENV']}.yaml",
                 returnStdout: true,
             )
-            config = readYaml text: configText
+            config = readFile '${env.WORKSPACE}/config/${params['DEPLOY_ENV']}.yaml'
                     
              }
              }

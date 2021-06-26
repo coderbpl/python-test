@@ -1,12 +1,10 @@
 pipeline {
     agent any
-    def pythonModule = "python_test"
     stages{
         stage('Deploy') {
             steps {
-                withEnv([
-        "PYTHONPATH=./${pythonModule}"
-    ]) {
+                withEnv(['PYTHON_SCRIPT=python_test']) 
+     {
         currentBuild.description = params.DEPLOY_ENV
         if (params.DEPLOY_ENV == "UAT") {
    

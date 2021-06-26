@@ -7,6 +7,7 @@ pipeline {
      {
        script {
            currentBuild.description = params.DEPLOY_ENV
+           echo params.DEPLOY_ENV 
    if ((params.DEPLOY_ENV == "UAT")) {
                build job: 'sample', parameters: [string(name: 'DEPLOY_ENV', value: 'uat')], propagate: false, wait: false 
    }else {

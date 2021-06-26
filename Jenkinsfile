@@ -5,16 +5,14 @@ pipeline {
             steps {
                 withEnv(['PYTHON_SCRIPT=python_test']) 
      {
-        currentBuild.description = params.DEPLOY_ENV
-        if (params.DEPLOY_ENV == "UAT") {
+       
    
-               build job: 'grafana/master', parameters: [string(name: 'DEPLOY_ENV', value: 'uat')], propagate: false, wait: false 
+               build job: 'grafana/master', parameters: [string(name: 'DEPLOY_ENV', value: params.DEPLOY_ENV)], propagate: false, wait: false 
             
-            return
-        }
+            
             }
         }
-        }
+        
         stage('Checkout') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'a6f4081c-63d6-441b-b8de-c99fd34f8502', url: 'https://github.com/coderbpl/python-test.git']]])
@@ -22,7 +20,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'py python_test.py'
+                sh 'py params.PYTHON_SCRIPT'
             }
         }
     }
